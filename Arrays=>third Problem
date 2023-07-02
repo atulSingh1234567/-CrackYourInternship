@@ -1,0 +1,12 @@
+class CDP{
+public int minChoco(int arr[] , int m){
+Arrays.sort(arr);
+int min = arr[arr.length -1];
+int i = 0;
+while( (i+ m - 1)<arr.length){
+min = Math.min(min , arr[+ m - 1] - arr[i]);
+i++;
+}
+return min;
+}
+}
