@@ -1,0 +1,71 @@
+class Kqueue{
+    int arr[];
+    int next[];
+    int front[];
+    int rear[];
+    int free;
+    int n,k;
+    
+    // constructor
+     Kqueue(int n, int k){
+         this.n = n;
+         this.k = k;
+         arr = new int[n];
+         next = new int[n];
+         front = new int[k];
+         rear = new int[k];
+         for(int i=0; i<k; i++){
+             front[i] = -1;
+             rear[i] = -1;
+         }
+         
+         for(int i=0; i<n; i++){
+             next[i] = i+1;
+         }
+         next[n-1] = -1;
+         free = 0;
+     }
+     
+     void push(int x , int q){
+         // free spot
+         int index = free;
+         // updating free spot;
+         free = next[index];
+         
+         // check if the first element is to be pushed
+         if(front[q-1] == -1){
+             front[q-1] = index;
+         }
+         else{
+             next[rear[q-1]] = index;
+         }
+         
+         // update next;
+         next[index] = -1;
+         
+         // update rear
+         
+         rear[q-1] = index;
+         // push value
+         arr[index] = x;
+     }
+     
+     int pop(int q){
+         // underflow 
+         if(front[q-1] == -1){
+             return -1;
+         }
+         
+         // index to be popped
+         int index = front[q-1];
+         
+         // update front
+         front[q-1] = next[index];
+         
+         // manage freespot
+         next[index]  = free;
+         free = index;
+         
+         return arr[index];
+     }
+}
